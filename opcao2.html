@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback NPS - Empresa de Telecomunicações B2B</title>
+  <style>
+    /* Reset e configurações básicas */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      color: #333;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    header h1 {
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+    header p {
+      font-size: 16px;
+      color: #555;
+    }
+    form {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .question {
+      margin-bottom: 25px;
+    }
+    .question h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    /* Estilização dos inputs do tipo radio (ocultos) e labels customizadas */
+    .options input[type="radio"] {
+      display: none;
+    }
+    .options label {
+      background-color: #fff;
+      border: 2px solid #D1C4E9;
+      border-radius: 4px;
+      padding: 10px 15px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+      user-select: none;
+    }
+    .options input[type="radio"]:checked + label {
+      background-color: #D1C4E9;
+      color: #fff;
+    }
+    /* Botão de Envio (CTA) */
+    .submit-btn {
+      background-color: #D1C4E9;
+      color: #fff;
+      border: none;
+      padding: 15px 25px;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s;
+    }
+    .submit-btn:hover {
+      background-color: #B39DDB;
+    }
+    /* Mensagem de agradecimento (exibida via :target) */
+    #thankyou {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      margin-top: 20px;
+      border: 2px solid #D1C4E9;
+      border-radius: 8px;
+      background-color: #F3E5F5;
+    }
+    #thankyou:target {
+      display: block;
+    }
+    /* Rodapé */
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 14px;
+      color: #777;
+    }
+    footer a {
+      color: #D1C4E9;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    /* Responsividade para telas menores */
+    @media (max-width: 600px) {
+      .options label {
+        flex: 1 1 30%;
+        text-align: center;
+        padding: 10px 5px;
+        font-size: 14px;
+      }
+      .submit-btn {
+        font-size: 14px;
+        padding: 12px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Feedback NPS</h1>
+      <p>Empresa de Telecomunicações B2B</p>
+    </header>
+    
+    <!-- Formulário de Feedback -->
+    <form id="npsForm" action="#thankyou" method="get">
+      
+      <!-- 1. Pergunta NPS Principal -->
+      <div class="question">
+        <h2>1. Em uma escala de 0 a 10, o quanto você recomendaria nossos serviços para outra empresa?</h2>
+        <div class="options">
+          <input type="radio" id="nps0" name="nps" value="0">
+          <label for="nps0">0</label>
+          <input type="radio" id="nps1" name="nps" value="1">
+          <label for="nps1">1</label>
+          <input type="radio" id="nps2" name="nps" value="2">
+          <label for="nps2">2</label>
+          <input type="radio" id="nps3" name="nps" value="3">
+          <label for="nps3">3</label>
+          <input type="radio" id="nps4" name="nps" value="4">
+          <label for="nps4">4</label>
+          <input type="radio" id="nps5" name="nps" value="5">
+          <label for="nps5">5</label>
+          <input type="radio" id="nps6" name="nps" value="6">
+          <label for="nps6">6</label>
+          <input type="radio" id="nps7" name="nps" value="7">
+          <label for="nps7">7</label>
+          <input type="radio" id="nps8" name="nps" value="8">
+          <label for="nps8">8</label>
+          <input type="radio" id="nps9" name="nps" value="9">
+          <label for="nps9">9</label>
+          <input type="radio" id="nps10" name="nps" value="10">
+          <label for="nps10">10</label>
+        </div>
+      </div>
+      
+      <!-- 2. Motivação para a Nota (Opcional) -->
+      <div class="question">
+        <h2>2. Qual o principal motivo da sua avaliação?</h2>
+        <div class="options">
+          <input type="radio" id="motivo1" name="motivo" value="Qualidade do serviço">
+          <label for="motivo1">Qualidade do serviço</label>
+          <input type="radio" id="motivo2" name="motivo" value="Atendimento">
+          <label for="motivo2">Atendimento</label>
+          <input type="radio" id="motivo3" name="motivo" value="Velocidade da conexão">
+          <label for="motivo3">Velocidade da conexão</label>
+          <input type="radio" id="motivo4" name="motivo" value="Suporte técnico">
+          <label for="motivo4">Suporte técnico</label>
+          <input type="radio" id="motivo5" name="motivo" value="Custo-benefício">
+          <label for="motivo5">Custo-benefício</label>
+        </div>
+      </div>
+      
+      <!-- 3. Facilidade de Uso e Experiência -->
+      <div class="question">
+        <h2>3. O quão fácil foi contratar e utilizar nosso serviço?</h2>
+        <div class="options">
+          <input type="radio" id="facilidade1" name="facilidade" value="1">
+          <label for="facilidade1">1 ★</label>
+          <input type="radio" id="facilidade2" name="facilidade" value="2">
+          <label for="facilidade2">2 ★★</label>
+          <input type="radio" id="facilidade3" name="facilidade" value="3">
+          <label for="facilidade3">3 ★★★</label>
+          <input type="radio" id="facilidade4" name="facilidade" value="4">
+          <label for="facilidade4">4 ★★★★</label>
+          <input type="radio" id="facilidade5" name="facilidade" value="5">
+          <label for="facilidade5">5 ★★★★★</label>
+        </div>
+      </div>
+      
+      <!-- 4. Tempo de Resolução de Problemas -->
+      <div class="question">
+        <h2>4. Como você avalia o tempo de resposta e solução dos problemas?</h2>
+        <div class="options">
+          <input type="radio" id="resolucao1" name="resolucao" value="Muito rápido">
+          <label for="resolucao1">Muito rápido</label>
+          <input type="radio" id="resolucao2" name="resolucao" value="Dentro do esperado">
+          <label for="resolucao2">Dentro do esperado</label>
+          <input type="radio" id="resolucao3" name="resolucao" value="Demorado">
+          <label for="resolucao3">Demorado</label>
+        </div>
+      </div>
+      
+      <!-- 5. Satisfação Geral -->
+      <div class="question">
+        <h2>5. Quão satisfeito(a) você está com nossa empresa?</h2>
+        <div class="options">
+          <input type="radio" id="satisfacao1" name="satisfacao" value="1">
+          <label for="satisfacao1">1 😞</label>
+          <input type="radio" id="satisfacao2" name="satisfacao" value="2">
+          <label for="satisfacao2">2 😕</label>
+          <input type="radio" id="satisfacao3" name="satisfacao" value="3">
+          <label for="satisfacao3">3 😐</label>
+          <input type="radio" id="satisfacao4" name="satisfacao" value="4">
+          <label for="satisfacao4">4 🙂</label>
+          <input type="radio" id="satisfacao5" name="satisfacao" value="5">
+          <label for="satisfacao5">5 😃</label>
+        </div>
+      </div>
+      
+      <!-- 6. Melhoria Contínua (Opcional) -->
+      <div class="question">
+        <h2>6. O que podemos melhorar?</h2>
+        <div class="options">
+          <input type="radio" id="melhoria1" name="melhoria" value="Atendimento ao cliente">
+          <label for="melhoria1">Atendimento ao cliente</label>
+          <input type="radio" id="melhoria2" name="melhoria" value="Planos e preços">
+          <label for="melhoria2">Planos e preços</label>
+          <input type="radio" id="melhoria3" name="melhoria" value="Estabilidade da conexão">
+          <label for="melhoria3">Estabilidade da conexão</label>
+          <input type="radio" id="melhoria4" name="melhoria" value="Tempo de instalação">
+          <label for="melhoria4">Tempo de instalação</label>
+        </div>
+      </div>
+      
+      <!-- Botão de Envio -->
+      <button type="submit" class="submit-btn">Enviar Feedback</button>
+    </form>
+    
+    <!-- Mensagem de Agradecimento (exibida ao direcionar para #thankyou) -->
+    <div id="thankyou">
+      <h2>Obrigado pelo seu feedback!</h2>
+      <p>Sua opinião é fundamental para aprimorarmos continuamente nossos serviços.</p>
+    </div>
+    
+    <!-- Rodapé -->
+    <footer>
+      <p>
+        <a href="#">Home</a> |
+        <a href="#">Política de Privacidade</a> |
+        <a href="#">Contato</a>
+      </p>
+      <p>&copy; 2025 Empresa de Telecomunicações B2B. Todos os direitos reservados.</p>
+    </footer>
+  </div>
+</body>
+</html>
