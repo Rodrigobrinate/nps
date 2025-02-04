@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avaliação de Serviços - Telecom B2B</title>
+  <style>
+    /* Reset e configuração base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff; /* fundo branco */
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    form {
+      margin-top: 20px;
+    }
+    
+    .question {
+      background-color: #fff;
+      border: 2px solid #B19CD9; /* roxo claro */
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .question h2 {
+      margin-bottom: 10px;
+      color: #B19CD9;
+    }
+    
+    .question p {
+      margin-bottom: 15px;
+    }
+    
+    .rating {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    
+    .rating-item {
+      flex: 1 1 8%;
+      margin: 5px;
+    }
+    
+    .rating-item input[type="radio"] {
+      display: none;
+    }
+    
+    .rating-item label {
+      display: block;
+      padding: 10px 0;
+      background-color: #f0f0f0;
+      border-radius: 4px;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+      border: 1px solid transparent;
+    }
+    
+    /* Destaque para a opção selecionada */
+    .rating-item input[type="radio"]:checked + label {
+      background-color: #B19CD9;
+      color: #fff;
+      border-color: #9F7BB5;
+    }
+    
+    .rating-item label:hover {
+      background-color: #E6E6FA; /* roxo bem claro */
+    }
+    
+    button {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 4px;
+      background-color: #B19CD9;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    button:hover {
+      background-color: #9F7BB5;
+    }
+    
+    /* Responsividade para telas menores */
+    @media (max-width: 480px) {
+      .rating-item {
+        flex: 1 1 18%;
+        margin: 3px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Avaliação dos Nossos Serviços</h1>
+    <p>Sua opinião é muito importante para melhorarmos nossos serviços. Por favor, responda as perguntas abaixo escolhendo uma nota de 0 a 10.</p>
+    <form action="/submit" method="POST">
+      
+      <!-- Pergunta 1: NPS -->
+      <div class="question">
+        <h2>Recomendação</h2>
+        <p>Em uma escala de 0 a 10, quão provável é que você recomende nossa empresa para um parceiro?</p>
+        <div class="rating">
+          <div class="rating-item">
+            <input type="radio" id="nps0" name="nps" value="0">
+            <label for="nps0">0</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="nps1" name="nps" value="1">
+            <label for="nps1">1</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="nps2" name="nps" value="2">
+            <label for="nps2">2</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="nps3" name="nps" value="3">
+            <label for="nps3">3</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="nps4" name="nps" value="4">
+            <label for="nps4">4</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="nps5" name="nps" value="5">
+            <label for="nps5">5</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="nps6" name="nps" value="6">
+            <label for="nps6">6</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="nps7" name="nps" value="7">
+            <label for="nps7">7</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="nps8" name="nps" value="8">
+            <label for="nps8">8</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="nps9" name="nps" value="9">
+            <label for="nps9">9</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="nps10" name="nps" value="10">
+            <label for="nps10">10</label>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pergunta 2: Qualidade do Atendimento -->
+      <div class="question">
+        <h2>Qualidade do Atendimento</h2>
+        <p>Como você avalia a qualidade do nosso atendimento?</p>
+        <div class="rating">
+          <div class="rating-item">
+            <input type="radio" id="atendimento0" name="atendimento" value="0">
+            <label for="atendimento0">0</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="atendimento1" name="atendimento" value="1">
+            <label for="atendimento1">1</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="atendimento2" name="atendimento" value="2">
+            <label for="atendimento2">2</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="atendimento3" name="atendimento" value="3">
+            <label for="atendimento3">3</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="atendimento4" name="atendimento" value="4">
+            <label for="atendimento4">4</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="atendimento5" name="atendimento" value="5">
+            <label for="atendimento5">5</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="atendimento6" name="atendimento" value="6">
+            <label for="atendimento6">6</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="atendimento7" name="atendimento" value="7">
+            <label for="atendimento7">7</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="atendimento8" name="atendimento" value="8">
+            <label for="atendimento8">8</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="atendimento9" name="atendimento" value="9">
+            <label for="atendimento9">9</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="atendimento10" name="atendimento" value="10">
+            <label for="atendimento10">10</label>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pergunta 3: Confiabilidade dos Serviços -->
+      <div class="question">
+        <h2>Confiabilidade dos Serviços</h2>
+        <p>Como você avalia a confiabilidade dos nossos serviços?</p>
+        <div class="rating">
+          <div class="rating-item">
+            <input type="radio" id="confiabilidade0" name="confiabilidade" value="0">
+            <label for="confiabilidade0">0</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="confiabilidade1" name="confiabilidade" value="1">
+            <label for="confiabilidade1">1</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="confiabilidade2" name="confiabilidade" value="2">
+            <label for="confiabilidade2">2</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="confiabilidade3" name="confiabilidade" value="3">
+            <label for="confiabilidade3">3</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="confiabilidade4" name="confiabilidade" value="4">
+            <label for="confiabilidade4">4</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="confiabilidade5" name="confiabilidade" value="5">
+            <label for="confiabilidade5">5</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="confiabilidade6" name="confiabilidade" value="6">
+            <label for="confiabilidade6">6</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="confiabilidade7" name="confiabilidade" value="7">
+            <label for="confiabilidade7">7</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="confiabilidade8" name="confiabilidade" value="8">
+            <label for="confiabilidade8">8</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="confiabilidade9" name="confiabilidade" value="9">
+            <label for="confiabilidade9">9</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="confiabilidade10" name="confiabilidade" value="10">
+            <label for="confiabilidade10">10</label>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pergunta 4: Agilidade do Suporte Técnico -->
+      <div class="question">
+        <h2>Agilidade do Suporte Técnico</h2>
+        <p>Como você avalia a agilidade do nosso suporte técnico?</p>
+        <div class="rating">
+          <div class="rating-item">
+            <input type="radio" id="suporte0" name="suporte" value="0">
+            <label for="suporte0">0</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="suporte1" name="suporte" value="1">
+            <label for="suporte1">1</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="suporte2" name="suporte" value="2">
+            <label for="suporte2">2</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="suporte3" name="suporte" value="3">
+            <label for="suporte3">3</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="suporte4" name="suporte" value="4">
+            <label for="suporte4">4</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="suporte5" name="suporte" value="5">
+            <label for="suporte5">5</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="suporte6" name="suporte" value="6">
+            <label for="suporte6">6</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="suporte7" name="suporte" value="7">
+            <label for="suporte7">7</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="suporte8" name="suporte" value="8">
+            <label for="suporte8">8</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="suporte9" name="suporte" value="9">
+            <label for="suporte9">9</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" id="suporte10" name="suporte" value="10">
+            <label for="suporte10">10</label>
+          </div>
+        </div>
+      </div>
+      
+      <button type="submit">Enviar Avaliação</button>
+    </form>
+  </div>
+</body>
+</html>
