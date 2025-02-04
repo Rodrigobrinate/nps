@@ -63,27 +63,30 @@
       position: relative;
       display: inline-block;
     }
-    /* Oculta o input padrão e estiliza a label como botão */
+    /* Oculta o input padrão */
     .option input[type="radio"] {
       opacity: 0;
       position: absolute;
       left: -9999px;
     }
+    /* Estilo para botões circulares (usados para números) */
     .option label {
-      display: block;
-      padding: 12px 18px;
-      border: 2px solid #6a1b9a;
-      border-radius: 50%;
+      /* Usando Flexbox para centralizar o conteúdo */
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      
       width: 48px;
       height: 48px;
-      text-align: center;
-      line-height: 24px;
+      border: 2px solid #6a1b9a;
+      border-radius: 50%;
       font-size: 16px;
       cursor: pointer;
       transition: background-color 0.3s, color 0.3s;
       color: #6a1b9a;
+      text-align: center;
     }
-    /* Para escalas (estrelas/smileys) ou botões de texto, utilize bordas retangulares */
+    /* Para opções em escalas (estrelas, smileys ou textos maiores), usamos botões retangulares */
     .scale-options .option label {
       border-radius: 4px;
       width: auto;
@@ -109,7 +112,7 @@
     .submit-btn:hover {
       background-color: #4a148c;
     }
-    /* Mensagem de Agradecimento – exibida quando o hash #thankyou é acionado */
+    /* Mensagem de Agradecimento */
     .thankyou-message {
       display: none;
       text-align: center;
