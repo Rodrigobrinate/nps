@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TUDO – The Backbone of Connectivity</title>
+  <style>
+    /* ------------------------------------------------
+       Global Styles & Reset
+    ------------------------------------------------ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    /* ------------------------------------------------
+       Header & Navigation (Dynamic on Scroll)
+    ------------------------------------------------ */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 20px 0;
+      background: transparent;
+      transition: background 0.5s ease, padding 0.5s ease;
+      z-index: 1100;
+    }
+    header.scrolled {
+      background: rgba(10, 10, 10, 0.95);
+      padding: 10px 0;
+    }
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+    /* Logo Image */
+    .logo-img {
+      width: 120px;
+      height: auto;
+      display: block;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+    }
+    nav ul li {
+      margin-left: 25px;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: #e0e0e0;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    nav ul li a:hover {
+      color: #00c0ff;
+    }
+    .menu-toggle {
+      display: none;
+      font-size: 1.8em;
+      cursor: pointer;
+      color: #e0e0e0;
+    }
+    /* Botão de troca de idioma */
+    .lang-toggle {
+      background: none;
+      border: 1px solid #e0e0e0;
+      color: #e0e0e0;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 15px;
+      font-size: 0.9em;
+    }
+    .lang-toggle:hover {
+      background: #00c0ff;
+    }
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: rgba(10, 10, 10, 0.95);
+        flex-direction: column;
+      }
+      nav.active {
+        display: flex;
+      }
+      nav ul {
+        flex-direction: column;
+      }
+      nav ul li {
+        margin: 15px 0;
+        text-align: center;
+      }
+      .menu-toggle {
+        display: block;
+      }
+    }
+
+    /* ------------------------------------------------
+       Hero Section with Dual-Layer Animated Background
+    ------------------------------------------------ */
+    #hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(45deg, #0d1b2a, #1b263b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    /* Animated Gradient Overlay */
+    #hero::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(60deg, #ffffff, #c67be9, #f026e2);
+      animation: gradientShift 15s ease infinite;
+      z-index: 1;
+      opacity: 0.6;
+    }
+    @keyframes gradientShift {
+      0% { transform: translate(0, 0); }
+      50% { transform: translate(20%, 20%); }
+      100% { transform: translate(0, 0); }
+    }
+    /* Hero Canvas for Particle Animation */
+    #heroCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    /* Hero Content */
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      padding: 20px;
+    }
+    .hero-content h1 {
+      font-size: 3.5em;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    }
+    .hero-content p {
+      font-size: 1.3em;
+      margin-bottom: 30px;
+    }
+    .cta {
+      background: #fff;
+      color: #0a0a0a;
+      padding: 15px 35px;
+      font-size: 1em;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 15px rgba(0, 192, 255, 0.5);
+    }
+    .cta:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 25px rgba(0, 192, 255, 0.7);
+    }
+    .cta:focus {
+      outline: none;
+    }
+
+    /* ------------------------------------------------
+       Stats Section (Count-Up Effect)
+    ------------------------------------------------ */
+    #stats {
+      background: #111;
+      padding: 60px 20px;
+      text-align: center;
+    }
+    #stats h2 {
+      font-size: 2.4em;
+      color: #cf44db;
+      margin-bottom: 40px;
+    }
+    .stats-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .stat-box {
+      flex: 1 1 200px;
+      min-width: 200px;
+    }
+    .stat-value {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: #ffffff;
+      margin-bottom: 10px;
+      transition: color 0.3s;
+    }
+    .stat-box p {
+      font-size: 1.1em;
+      color: #ccc;
+    }
+
+    /* ------------------------------------------------
+       Services Section
+    ------------------------------------------------ */
+    #services {
+      padding: 80px 20px;
+      background: #131313;
+    }
+    #services h2 {
+      text-align: center;
+      margin-bottom: 50px;
+      font-size: 2.5em;
+      color: #cf44db;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+    .service-card {
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card:hover {
+      transform: translateY(-10px) rotate(0.5deg);
+      box-shadow: 0 10px 20px rgba(0,192,255,0.3);
+    }
+    .service-icon {
+      font-size: 3em;
+      margin-bottom: 20px;
+      color: #00c0ff;
+    }
+    .service-card h3 {
+      margin-bottom: 15px;
+      font-size: 1.5em;
+      color: #fff;
+    }
+    .service-card p {
+      font-size: 1em;
+      color: #ccc;
+    }
+
+    /* ------------------------------------------------
+       Testimonials Section
+    ------------------------------------------------ */
+    #testimonials {
+      padding: 80px 20px;
+      background: #0d0d0d;
+    }
+    #testimonials h2 {
+      text-align: center;
+      margin-bottom: 50px;
+      font-size: 2.5em;
+      color: #cf44db;
+    }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    .testimonial-card {
+      background: #1e1e1e;
+      padding: 25px;
+      border-radius: 12px;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 18px rgba(0,192,255,0.3);
+    }
+    .testimonial-photo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+      border: 2px solid #00c0ff;
+    }
+    .testimonial-name {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    .testimonial-text {
+      font-size: 0.95em;
+      color: #ccc;
+    }
+
+    /* ------------------------------------------------
+       Interactive Network Section
+    ------------------------------------------------ */
+    #network {
+      position: relative;
+      height: 600px;
+      background: #000;
+      overflow: hidden;
+    }
+    #networkCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .network-overlay {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding-top: 40px;
+      color: #00c0ff;
+    }
+    .network-overlay h2 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    .network-overlay p {
+      font-size: 1.1em;
+    }
+
+    /* ------------------------------------------------
+       Footer
+    ------------------------------------------------ */
+    footer {
+      background: #111;
+      color: #ccc;
+      padding: 30px 20px;
+    }
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .footer-links a {
+      color: #00c0ff;
+      text-decoration: none;
+      margin: 0 15px;
+      transition: color 0.3s ease;
+    }
+    .footer-links a:hover {
+      color: #fff;
+    }
+    .footer-contact {
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- ------------------------------------
+       Fixed Header with Dynamic Background
+  ------------------------------------ -->
+  <header id="header">
+    <div class="nav-container">
+      <!-- Logo -->
+      <div class="logo">
+        <img src="logo.png" alt="TUDO" class="logo-img" />
+      </div>
+      
+      <nav>
+        <ul>
+          <li><a href="#hero" data-translate="navHome">Home</a></li>
+          <li><a href="#stats" data-translate="navStats">Stats</a></li>
+          <li><a href="#services" data-translate="navServices">Services</a></li>
+          <li><a href="#testimonials" data-translate="navTestimonials">Testimonials</a></li>
+          <li><a href="#network" data-translate="navNetwork">Network</a></li>
+          <li><a href="#footer" data-translate="navContact">Contact</a></li>
+          <!-- Botão de troca de idioma -->
+      <button id="lang-toggle" class="lang-toggle">EN</button>
+      <div class="menu-toggle">&#9776;</div>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ------------------------------------
+       Hero Section with Dual-Layer Animation
+  ------------------------------------ -->
+  <section id="hero">
+    <canvas id="heroCanvas"></canvas>
+    <div class="hero-content container">
+      <h1 data-translate="heroTitle">Banda larga corporativa</h1>
+      <p data-translate="heroDesc">
+        Conectamos empresas ao futuro com a velocidade de agora. Segurança, inovação e escalabilidade em um backbone sem limites.
+      </p>
+      <button class="cta" onclick="document.querySelector('#services').scrollIntoView({ behavior: 'smooth' });" data-translate="heroButton">
+        Get Started
+      </button>
+    </div>
+  </section>
+
+  <!-- ------------------------------------
+       Stats Section (Count-Up Effect)
+  ------------------------------------ -->
+  <section id="stats">
+    <h2 data-translate="statsHeader">Our Global Footprint</h2>
+    <div class="container stats-container">
+      <div class="stat-box">
+        <div class="stat-value" data-target="120">0</div>
+        <p data-translate="popLabel">Pontos de Presença</p>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" data-target="1000">0  Gbps</div>
+        <p data-translate="trafficLabel">Tráfego</p>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" data-target="99.99">0</div>
+        <p data-translate="uptimeLabel">Network Uptime</p>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" data-target="5000">0</div>
+        <p data-translate="clientsLabel">Clientes Empresariais</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------
+       Services Section
+  ------------------------------------ -->
+  <section id="services">
+    <div class="container">
+      <h2 data-translate="servicesHeader">Our Strategic Solutions</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">&#128187;</div>
+          <h3 data-translate="service1Title">Infraestrutura</h3>
+          <p data-translate="service1Desc">Soluções de backbone robustas para conectividade empresarial.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">&#128421;</div>
+          <h3 data-translate="service2Title">Data Centers</h3>
+          <p data-translate="service2Desc">Instalações de última geração que impulsionam operações de missão crítica.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">&#128640;</div>
+          <h3 data-translate="service3Title">Cloud Integration</h3>
+          <p data-translate="service3Desc">Conectividade de nuvem perfeita para crescimento empresarial escalável.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">&#128241;</div>
+          <h3 data-translate="service4Title">Suporte</h3>
+          <p data-translate="service4Desc">Suporte especializado para garantir excelência operacional contínua.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------
+       Testimonials Section
+  ------------------------------------ -->
+  <section id="testimonials">
+    <div class="container">
+      <h2 data-translate="testimonialsHeader">O que nossos clientes dizem</h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <img src="https://via.placeholder.com/60" alt="Client Photo" class="testimonial-photo" />
+          <div class="testimonial-name">Alice Thompson</div>
+          <div class="testimonial-text" data-translate="testimonial1Text">
+            Their network solutions have revolutionized our operations!
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <img src="https://via.placeholder.com/60" alt="Client Photo" class="testimonial-photo" />
+          <div class="testimonial-name">Robert Lee</div>
+          <div class="testimonial-text" data-translate="testimonial2Text">
+            Unmatched expertise and reliable service – a true backbone for our business.
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <img src="https://via.placeholder.com/60" alt="Client Photo" class="testimonial-photo" />
+          <div class="testimonial-name">Monica Patel</div>
+          <div class="testimonial-text" data-translate="testimonial3Text">
+            Our connectivity has never been more secure and efficient.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------
+       Interactive Network Section
+  ------------------------------------ -->
+  <section id="network">
+    <canvas id="networkCanvas"></canvas>
+    <div class="network-overlay">
+      <h2 data-translate="networkHeader">Our Supply Network</h2>
+      <p data-translate="networkDesc">
+        Visualizing the robust infrastructure behind our services.
+      </p>
+    </div>
+  </section>
+
+  <!-- ------------------------------------
+       Footer
+  ------------------------------------ -->
+  <footer id="footer">
+    <div class="container footer-container">
+      <div class="footer-links">
+        <a href="#hero" data-translate="footerHome">Home</a>
+        <a href="#stats" data-translate="footerStats">Stats</a>
+        <a href="#services" data-translate="footerServices">Services</a>
+        <a href="#testimonials" data-translate="footerTestimonials">Testimonials</a>
+        <a href="#network" data-translate="footerNetwork">Network</a>
+      </div>
+      <div class="footer-contact">
+        <p data-translate="footerContact">Contact: info@backbonesupplies.com</p>
+        <p>
+          <span data-translate="footerFollow">Follow us:</span>
+          <a href="#">LinkedIn</a> |
+          <a href="#">Twitter</a> |
+          <a href="#">Facebook</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ------------------------------------
+       JavaScript for Interactivity & Animations
+  ------------------------------------ -->
+  <script>
+    /* --- Mobile Navigation Toggle --- */
+    const menuToggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('nav');
+    menuToggle.addEventListener('click', () => {
+      nav.classList.toggle('active');
+    });
+
+    /* --- Smooth Scrolling for Nav Links --- */
+    document.querySelectorAll('nav ul li a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        nav.classList.remove('active');
+        document.querySelector(link.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    /* --- Dynamic Header Background on Scroll --- */
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 80);
+    });
+
+    /* ------------------------------------------------
+       Hero Canvas Animation: Particle Network Effect
+    ------------------------------------------------ */
+    const heroCanvas = document.getElementById('heroCanvas');
+    const hCtx = heroCanvas.getContext('2d');
+    let heroParticles = [];
+    const heroParticleCount = 50;
+    const heroMaxDistance = 120;
+
+    function resizeHeroCanvas() {
+      heroCanvas.width = heroCanvas.offsetWidth;
+      heroCanvas.height = heroCanvas.offsetHeight;
+    }
+    window.addEventListener('resize', resizeHeroCanvas);
+    resizeHeroCanvas();
+
+    class HeroParticle {
+      constructor(x, y) {
+        this.x = x || Math.random() * heroCanvas.width;
+        this.y = y || Math.random() * heroCanvas.height;
+        this.radius = Math.random() * 2 + 1;
+        this.vx = (Math.random() - 0.5) * 1;
+        this.vy = (Math.random() - 0.5) * 1;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0) this.x = heroCanvas.width;
+        if (this.x > heroCanvas.width) this.x = 0;
+        if (this.y < 0) this.y = heroCanvas.height;
+        if (this.y > heroCanvas.height) this.y = 0;
+      }
+      draw() {
+        hCtx.beginPath();
+        hCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        hCtx.fillStyle = "#00c0ff";
+        hCtx.fill();
+      }
+    }
+
+    for (let i = 0; i < heroParticleCount; i++) {
+      heroParticles.push(new HeroParticle());
+    }
+
+    function animateHero() {
+      hCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+      for (let i = 0; i < heroParticles.length; i++) {
+        const p1 = heroParticles[i];
+        p1.update();
+        p1.draw();
+        for (let j = i + 1; j < heroParticles.length; j++) {
+          const p2 = heroParticles[j];
+          const dx = p1.x - p2.x;
+          const dy = p1.y - p2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < heroMaxDistance) {
+            hCtx.beginPath();
+            hCtx.moveTo(p1.x, p1.y);
+            hCtx.lineTo(p2.x, p2.y);
+            hCtx.strokeStyle = `rgba(0,192,255,${1 - dist / heroMaxDistance})`;
+            hCtx.lineWidth = 1;
+            hCtx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(animateHero);
+    }
+    animateHero();
+
+    /* ------------------------------------------------
+       Interactive Network Canvas (Bottom Section)
+    ------------------------------------------------ */
+    const networkCanvas = document.getElementById('networkCanvas');
+    const nCtx = networkCanvas.getContext('2d');
+    let networkNodes = [];
+    const baseNodes = 25;
+    const networkMaxDistance = 200;
+    let mousePos = { x: null, y: null };
+
+    function resizeNetworkCanvas() {
+      networkCanvas.width = networkCanvas.offsetWidth;
+      networkCanvas.height = networkCanvas.offsetHeight;
+    }
+    window.addEventListener('resize', resizeNetworkCanvas);
+    resizeNetworkCanvas();
+
+    class NetworkNode {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.radius = 3 + Math.random() * 2;
+        this.vx = (Math.random() - 0.5) * 1.5;
+        this.vy = (Math.random() - 0.5) * 1.5;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > networkCanvas.width) this.vx *= -1;
+        if (this.y < 0 || this.y > networkCanvas.height) this.vy *= -1;
+      }
+      draw() {
+        nCtx.beginPath();
+        nCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        nCtx.fillStyle = '#00c0ff';
+        nCtx.fill();
+      }
+    }
+
+    for (let i = 0; i < baseNodes; i++) {
+      networkNodes.push(new NetworkNode(Math.random() * networkCanvas.width, Math.random() * networkCanvas.height));
+    }
+
+    function animateNetwork() {
+      nCtx.clearRect(0, 0, networkCanvas.width, networkCanvas.height);
+      nCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      nCtx.fillRect(0, 0, networkCanvas.width, networkCanvas.height);
+
+      networkNodes.forEach(node => {
+        node.update();
+        node.draw();
+      });
+
+      for (let i = 0; i < networkNodes.length; i++) {
+        for (let j = i + 1; j < networkNodes.length; j++) {
+          const dx = networkNodes[i].x - networkNodes[j].x;
+          const dy = networkNodes[i].y - networkNodes[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < networkMaxDistance) {
+            nCtx.beginPath();
+            nCtx.moveTo(networkNodes[i].x, networkNodes[i].y);
+            nCtx.lineTo(networkNodes[j].x, networkNodes[j].y);
+            nCtx.strokeStyle = `rgba(0,192,255,${1 - distance / networkMaxDistance})`;
+            nCtx.lineWidth = 1;
+            nCtx.stroke();
+          }
+        }
+      }
+
+      if (mousePos.x && mousePos.y) {
+        networkNodes.forEach(node => {
+          const dx = node.x - mousePos.x;
+          const dy = node.y - mousePos.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < networkMaxDistance / 2) {
+            nCtx.beginPath();
+            nCtx.moveTo(mousePos.x, mousePos.y);
+            nCtx.lineTo(node.x, node.y);
+            nCtx.strokeStyle = `rgba(255,255,255,${1 - distance / (networkMaxDistance / 2)})`;
+            nCtx.lineWidth = 1;
+            nCtx.stroke();
+          }
+        });
+      }
+      requestAnimationFrame(animateNetwork);
+    }
+    animateNetwork();
+
+    networkCanvas.addEventListener('mousemove', (e) => {
+      const rect = networkCanvas.getBoundingClientRect();
+      mousePos.x = e.clientX - rect.left;
+      mousePos.y = e.clientY - rect.top;
+    });
+    networkCanvas.addEventListener('mouseleave', () => {
+      mousePos.x = null;
+      mousePos.y = null;
+    });
+    networkCanvas.addEventListener('click', (e) => {
+      const rect = networkCanvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      networkNodes.push(new NetworkNode(x, y));
+    });
+
+    /* ------------------------------------------------
+       Count-Up Effect for Stats Section
+    ------------------------------------------------ */
+    const statsSection = document.getElementById('stats');
+    const statValues = document.querySelectorAll('.stat-value');
+    let statsStarted = false;
+
+    function startCountUp() {
+      if (statsStarted) return;
+      const sectionTop = statsSection.offsetTop;
+      const sectionHeight = statsSection.offsetHeight;
+      const scrollPos = window.scrollY + window.innerHeight;
+      if (scrollPos >= sectionTop + sectionHeight / 4) {
+        statsStarted = true;
+        statValues.forEach((value) => {
+          const target = +value.getAttribute('data-target');
+          let count = 0;
+          const speed = 50;
+          const increment = Math.ceil(target / speed);
+
+          function updateCount() {
+            if (count < target) {
+              count += increment;
+              if (count > target) count = target;
+              value.textContent = count;
+              requestAnimationFrame(updateCount);
+            } else {
+              if (value.textContent == "1000"){
+                value.textContent = "+" + target + " Gbps";
+              }
+              else if (value.textContent == "120"){
+                value.textContent = "+" + target + " POPs";
+              }
+              else if (value.textContent == "99.99"){
+                value.textContent = "+" + target + "%";
+              }
+              else {
+                value.textContent = "+" + target;
+              }
+            }
+          }
+          updateCount();
+        });
+      }
+    }
+    window.addEventListener('scroll', startCountUp);
+
+    /* ------------------------------------------------
+       Language Toggle & Translations
+    ------------------------------------------------ */
+    const langToggle = document.getElementById('lang-toggle');
+    let currentLang = 'pt';
+
+    const translations = {
+      en: {
+        navHome: "Home",
+        navStats: "Stats",
+        navServices: "Services",
+        navTestimonials: "Testimonials",
+        navNetwork: "Network",
+        navContact: "Contact",
+        heroTitle: "Corporate Broadband",
+        heroDesc: "Connecting businesses to the future with today's speed. Security, innovation, and scalability on a limitless backbone.",
+        heroButton: "Get Started",
+        statsHeader: "Our Global Footprint",
+        popLabel: "Points of Presence",
+        trafficLabel: "Traffic",
+        uptimeLabel: "Network Uptime",
+        clientsLabel: "Corporate Clients",
+        servicesHeader: "Our Strategic Solutions",
+        service1Title: "Infrastructure",
+        service1Desc: "Robust backbone solutions for enterprise connectivity.",
+        service2Title: "Data Centers",
+        service2Desc: "State-of-the-art facilities powering mission-critical operations.",
+        service3Title: "Cloud Integration",
+        service3Desc: "Seamless cloud connectivity for scalable business growth.",
+        service4Title: "Support",
+        service4Desc: "Specialized support for continuous operational excellence.",
+        testimonialsHeader: "What Our Clients Say",
+        testimonial1Text: "Their network solutions have revolutionized our operations!",
+        testimonial2Text: "Unmatched expertise and reliable service – a true backbone for our business.",
+        testimonial3Text: "Our connectivity has never been more secure and efficient.",
+        networkHeader: "Our Supply Network",
+        networkDesc: "Visualizing the robust infrastructure behind our services.",
+        footerHome: "Home",
+        footerStats: "Stats",
+        footerServices: "Services",
+        footerTestimonials: "Testimonials",
+        footerNetwork: "Network",
+        footerContact: "Contact: info@backbonesupplies.com",
+        footerFollow: "Follow us:"
+      },
+      pt: {
+        navHome: "Início",
+        navStats: "Estatísticas",
+        navServices: "Serviços",
+        navTestimonials: "Depoimentos",
+        navNetwork: "Rede",
+        navContact: "Contato",
+        heroTitle: "Banda larga corporativa",
+        heroDesc: "Conectamos empresas ao futuro com a velocidade de agora. Segurança, inovação e escalabilidade em um backbone sem limites.",
+        heroButton: "Comece Agora",
+        statsHeader: "Nossa Presença Global",
+        popLabel: "Pontos de Presença",
+        trafficLabel: "Tráfego",
+        uptimeLabel: "Tempo de Atividade",
+        clientsLabel: "Clientes Empresariais",
+        servicesHeader: "Nossas Soluções Estratégicas",
+        service1Title: "Infraestrutura",
+        service1Desc: "Soluções de backbone robustas para conectividade empresarial.",
+        service2Title: "Data Centers",
+        service2Desc: "Instalações de última geração que impulsionam operações de missão crítica.",
+        service3Title: "Integração com a Nuvem",
+        service3Desc: "Conectividade de nuvem perfeita para crescimento empresarial escalável.",
+        service4Title: "Suporte",
+        service4Desc: "Suporte especializado para garantir excelência operacional contínua.",
+        testimonialsHeader: "O que nossos clientes dizem",
+        testimonial1Text: "As soluções de rede deles revolucionaram nossas operações!",
+        testimonial2Text: "Expertise inigualável e serviço confiável – um verdadeiro backbone para o nosso negócio.",
+        testimonial3Text: "Nossa conectividade nunca foi tão segura e eficiente.",
+        networkHeader: "Nossa Rede de Suprimentos",
+        networkDesc: "Visualizando a robusta infraestrutura por trás de nossos serviços.",
+        footerHome: "Início",
+        footerStats: "Estatísticas",
+        footerServices: "Serviços",
+        footerTestimonials: "Depoimentos",
+        footerNetwork: "Rede",
+        footerContact: "Contato: info@backbonesupplies.com",
+        footerFollow: "Siga-nos:"
+      }
+    };
+
+    function updateTranslations() {
+      document.querySelectorAll('[data-translate]').forEach(el => {
+        const key = el.getAttribute('data-translate');
+        if (translations[currentLang][key]) {
+          el.textContent = translations[currentLang][key];
+        }
+      });
+      langToggle.textContent = currentLang === 'pt' ? 'EN' : 'PT';
+    }
+
+    langToggle.addEventListener('click', () => {
+      currentLang = currentLang === 'pt' ? 'en' : 'pt';
+      updateTranslations();
+    });
+
+    updateTranslations();
+  </script>
+</body>
+</html>
